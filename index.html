@@ -1,850 +1,970 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>思考整理ノート</title>
-<style>
-  :root {
-    --bg: #f7f5ff;
-    --surface: #ffffff;
-    --surface2: #f0eeff;
-    --primary: #7c6fcd;
-    --primary-light: #a99de8;
-    --primary-dark: #5a4faa;
-    --text: #2d2d3a;
-    --text-sub: #6b6b80;
-    --border: #e0daf7;
-    --shadow: 0 4px 20px rgba(124,111,205,0.1);
-    --radius: 16px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>思考整理ノート</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ─── BASE ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --purple:  #8b5cf6;
+      --pink:    #ec4899;
+      --yellow:  #f59e0b;
+      --green:   #10b981;
+      --blue:    #3b82f6;
+      --orange:  #f97316;
+      --radius:  20px;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Meiryo', sans-serif;
-    min-height: 100vh;
-    padding: 24px 16px 60px;
-  }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fdf4ff 0%, #fce7f3 35%, #fef9c3 70%, #ecfdf5 100%);
+      padding: 24px 16px 60px;
+    }
 
-  header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
+    /* ─── HEADER ────────────────────────────────────── */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
 
-  .logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--primary-dark);
-    letter-spacing: -0.5px;
-  }
+    .logo {
+      font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 900;
+      background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
 
-  .logo span { color: var(--primary); }
+    .subtitle {
+      color: #7c6f99;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
 
-  .subtitle {
-    margin-top: 6px;
-    font-size: 14px;
-    color: var(--text-sub);
-  }
+    /* ─── LAYOUT ─────────────────────────────────────── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
 
-  .container {
-    max-width: 700px;
-    margin: 0 auto;
-  }
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(139,92,246,.1);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 2px solid transparent;
+      transition: border-color .2s;
+    }
 
-  /* INPUT CARD */
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
-  }
+    .card:focus-within {
+      border-color: #e9d5ff;
+    }
 
-  .card-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    .section-label {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-  .hint {
-    font-size: 12px;
-    color: var(--text-sub);
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
+    /* ─── INPUT AREA ─────────────────────────────────── */
+    .input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
 
-  .hint code {
-    background: var(--border);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 12px;
-    font-family: inherit;
-  }
+    .input-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #6d28d9;
+    }
 
-  textarea {
-    width: 100%;
-    min-height: 180px;
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--text);
-    background: #fdfcff;
-    resize: vertical;
-    outline: none;
-    line-height: 1.7;
-    transition: border-color 0.2s;
-  }
+    .char-count {
+      font-size: 0.8rem;
+      color: #a78bfa;
+      font-weight: 600;
+    }
 
-  textarea:focus { border-color: var(--primary-light); }
-  textarea::placeholder { color: #bbb8cc; }
+    #inputArea {
+      width: 100%;
+      min-height: 160px;
+      padding: 14px 16px;
+      border: 2px solid #ede9fe;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #374151;
+      resize: vertical;
+      line-height: 1.7;
+      transition: border-color .2s;
+      outline: none;
+    }
 
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
+    #inputArea:focus { border-color: #a78bfa; }
+    #inputArea::placeholder { color: #c4b5fd; }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 24px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    font-family: inherit;
-    font-weight: 700;
-    transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
-  }
+    /* ─── BUTTONS ─────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
 
-  .btn:active { transform: scale(0.97); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      padding: 10px 18px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s, box-shadow .15s;
+    }
 
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    box-shadow: 0 4px 14px rgba(124,111,205,0.35);
-  }
+    .btn:hover  { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+    .btn:active { transform: scale(.96); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 
-  .btn-primary:hover { box-shadow: 0 6px 20px rgba(124,111,205,0.45); }
+    .btn-primary {
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      color: #fff;
+      flex: 1;
+      justify-content: center;
+      min-width: 120px;
+    }
 
-  .btn-secondary {
-    background: var(--surface2);
-    color: var(--text-sub);
-    border: 1px solid var(--border);
-  }
+    .btn-mic {
+      background: linear-gradient(90deg, #f59e0b, #f97316);
+      color: #fff;
+      min-width: 52px;
+      justify-content: center;
+    }
 
-  .btn-secondary:hover { background: var(--border); }
+    .btn-mic.listening {
+      background: linear-gradient(90deg, #ef4444, #ec4899);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
 
-  /* RESULTS */
-  #results { display: none; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
+      50%       { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+    }
 
-  .results-header {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-sub);
-    margin-bottom: 14px;
-    text-align: center;
-    letter-spacing: 0.5px;
-  }
+    .btn-clear {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
 
-  /* CATEGORY CARD */
-  .cat-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    animation: slideIn 0.3s ease;
-  }
+    .btn-history {
+      background: #fef3c7;
+      color: #92400e;
+      position: relative;
+    }
 
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+    .history-badge {
+      position: absolute;
+      top: -6px; right: -6px;
+      background: #ec4899;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 900;
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
+    }
 
-  .cat-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 18px;
-    font-weight: 700;
-    font-size: 14px;
-    border-bottom: 1px solid var(--border);
-  }
+    .btn-copy {
+      background: #fce7f3;
+      color: #9d174d;
+      flex: 1;
+      justify-content: center;
+    }
 
-  .cat-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-  }
+    .btn-download {
+      background: #d1fae5;
+      color: #065f46;
+      flex: 1;
+      justify-content: center;
+    }
 
-  .cat-body { padding: 16px 18px; }
+    /* ─── MIC HINT ───────────────────────────────────── */
+    .mic-hint {
+      font-size: 0.75rem;
+      color: #f59e0b;
+      margin-top: 8px;
+      display: none;
+    }
 
-  /* Items list */
-  .raw-items {
-    margin-bottom: 14px;
-  }
+    .mic-hint.visible { display: block; }
 
-  .raw-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 5px 0;
-    font-size: 13px;
-    color: var(--text-sub);
-    border-bottom: 1px dashed var(--border);
-  }
+    /* ─── LOADING ─────────────────────────────────────── */
+    #loadingSection {
+      display: none;
+      text-align: center;
+      padding: 32px;
+    }
 
-  .raw-item:last-child { border-bottom: none; }
+    .spinner {
+      font-size: 2.4rem;
+      animation: spin 1.2s linear infinite;
+      display: inline-block;
+    }
 
-  .raw-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    margin-top: 7px;
-    flex-shrink: 0;
-  }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-  /* Organized text */
-  .organized-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-sub);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+    .loading-text {
+      color: #8b5cf6;
+      font-weight: 700;
+      margin-top: 10px;
+    }
 
-  .organized-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+    /* ─── RESULT ─────────────────────────────────────── */
+    #resultSection { display: none; }
 
-  .organized-text {
-    background: var(--surface2);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text);
-    white-space: pre-wrap;
-    border-left: 3px solid var(--primary-light);
-  }
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
 
-  .copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--primary);
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s;
-  }
+    .chip {
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 2px solid;
+    }
 
-  .copy-btn:hover { background: var(--surface2); }
+    .chip-0 { background:#ede9fe; color:#5b21b6; border-color:#c4b5fd; }
+    .chip-1 { background:#fce7f3; color:#9d174d; border-color:#f9a8d4; }
+    .chip-2 { background:#fef3c7; color:#78350f; border-color:#fcd34d; }
+    .chip-3 { background:#d1fae5; color:#065f46; border-color:#6ee7b7; }
+    .chip-4 { background:#dbeafe; color:#1e3a8a; border-color:#93c5fd; }
+    .chip-5 { background:#ffedd5; color:#7c2d12; border-color:#fdba74; }
 
-  /* SUMMARY CARD */
-  .summary-card {
-    background: linear-gradient(135deg, #7c6fcd11, #a99de822);
-    border: 2px solid var(--primary-light);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    margin-bottom: 20px;
-    animation: slideIn 0.3s ease 0.1s both;
-  }
+    .result-box {
+      background: linear-gradient(135deg, #fdf4ff, #fce7f3 60%, #fef9c3);
+      border-radius: 14px;
+      padding: 18px 20px;
+      white-space: pre-wrap;
+      line-height: 1.85;
+      color: #374151;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      border: 1.5px solid #e9d5ff;
+    }
 
-  .summary-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+    /* ─── HISTORY MODAL ──────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.3);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
 
-  .summary-text {
-    font-size: 14px;
-    line-height: 1.9;
-    color: var(--text);
-    white-space: pre-wrap;
-  }
+    .modal-overlay.open { display: flex; }
 
-  /* LOADING */
-  .loading {
-    text-align: center;
-    padding: 32px;
-    color: var(--text-sub);
-    font-size: 14px;
-    display: none;
-  }
+    .modal {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.18);
+      width: 100%;
+      max-width: 520px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-  .spinner {
-    width: 28px;
-    height: 28px;
-    border: 3px solid var(--border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin: 0 auto 12px;
-  }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 16px;
+      border-bottom: 1.5px solid #f3f4f6;
+    }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #6d28d9;
+    }
 
-  /* EXAMPLE BUTTON */
-  .example-link {
-    font-size: 12px;
-    color: var(--primary);
-    cursor: pointer;
-    text-decoration: underline;
-    background: none;
-    border: none;
-    font-family: inherit;
-    padding: 0;
-  }
+    .modal-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .char-count {
-    font-size: 12px;
-    color: var(--text-sub);
-    text-align: right;
-    margin-top: 6px;
-  }
+    .btn-delete-all {
+      font-size: 0.78rem;
+      color: #ef4444;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
 
-  /* UNCLASSIFIED */
-  .other-card .cat-header {
-    background: #fafafa;
-  }
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #9ca3af;
+      line-height: 1;
+    }
 
-  @media (max-width: 500px) {
-    .btn { font-size: 14px; padding: 11px 18px; }
-    .card { padding: 18px 16px; }
-  }
-</style>
+    .history-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .history-item:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+
+    .history-item-0 { background: #ede9fe; border: 1.5px solid #c4b5fd; }
+    .history-item-1 { background: #fce7f3; border: 1.5px solid #f9a8d4; }
+    .history-item-2 { background: #fef3c7; border: 1.5px solid #fcd34d; }
+    .history-item-3 { background: #d1fae5; border: 1.5px solid #6ee7b7; }
+    .history-item-4 { background: #dbeafe; border: 1.5px solid #93c5fd; }
+    .history-item-5 { background: #ffedd5; border: 1.5px solid #fdba74; }
+
+    .history-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .history-date {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #6b7280;
+    }
+
+    .btn-history-del {
+      background: none;
+      border: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #9ca3af;
+      transition: color .15s;
+      padding: 0 2px;
+    }
+
+    .btn-history-del:hover { color: #ef4444; }
+
+    .history-preview {
+      font-size: 0.85rem;
+      color: #374151;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .btn-restore {
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      color: #7c3aed;
+    }
+
+    .history-empty {
+      text-align: center;
+      padding: 40px 16px;
+      color: #9ca3af;
+    }
+
+    /* ─── TOAST ─────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1f2937;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 200;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 500px) {
+      .btn-row { gap: 8px; }
+      .btn { padding: 10px 14px; font-size: 0.85rem; }
+    }
+
+    /* ─── MOOD BANNER ────────────────────────────────── */
+    .mood-banner {
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 0.97rem;
+      font-weight: 700;
+      line-height: 1.6;
+      animation: slideIn .45s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .mood-positive {
+      background: linear-gradient(135deg, #fef9c3, #d1fae5);
+      border: 2px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    .mood-negative {
+      background: linear-gradient(135deg, #fce7f3, #ede9fe);
+      border: 2px solid #c4b5fd;
+      color: #5b21b6;
+    }
+
+    /* ─── NO-SPEECH NOTE ─────────────────────────────── */
+    .no-speech { display: none; }
+  </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- ── HEADER ── -->
   <header>
-    <div class="logo">思考整理<span>ノート</span></div>
-    <div class="subtitle">頭の中をそのまま打ち込むだけで、話しやすく整理してくれます</div>
+    <div class="logo">✨ 思考整理ノート</div>
+    <div class="subtitle">頭の中をそのまま打ち込むだけで、話せる言葉に整えてくれるよ</div>
   </header>
 
-  <!-- INPUT -->
+  <!-- ── INPUT CARD ── -->
   <div class="card">
-    <div class="card-title">
-      ✏️ 出来事・気持ちを入力
+    <div class="input-header">
+      <span class="input-label">✏️ 気持ちや出来事を書いてみよう</span>
+      <span class="char-count"><span id="charCount">0</span> 文字</span>
     </div>
-    <div class="hint">
-      思いついたことを<strong>1行1つ</strong>で書いてください。箇条書き（<code>・</code> や <code>-</code>）でも、普通の文でも大丈夫です。<br>
-      <button class="example-link" onclick="insertExample()">📋 入力例を見る</button>
-    </div>
-    <textarea id="inputArea" placeholder="例：
-・今日の会議で発言できなかった
-・上司に報告するのが怖い
-・友達と話すと少し楽になる
-・最近なんか疲れてる気がする"></textarea>
-    <div class="char-count"><span id="charCount">0</span> 文字</div>
+
+    <textarea
+      id="inputArea"
+      placeholder="例：&#10;・今日の会議でうまく話せなかった&#10;・上司に怒られた気がして怖い&#10;・帰り道、なんか気が重かった&#10;&#10;思ったままでOK！箇条書きでも普通の文でも🙆"
+    ></textarea>
+
+    <div id="micHint" class="mic-hint">🎙️ マイクで話してみて — 声が文字になるよ！</div>
+
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="organize()">✨ 整理する</button>
-      <button class="btn btn-secondary" onclick="clearAll()">🗑 クリア</button>
+      <button class="btn btn-primary" id="organizeBtn" onclick="organize()" disabled>✨ 整理する</button>
+      <button class="btn btn-mic no-speech" id="micBtn" title="音声入力" onclick="toggleMic()">🎙️</button>
+      <button class="btn btn-clear" onclick="clearAll()">🗑 クリア</button>
+      <button class="btn btn-history" id="historyBtn" onclick="openHistory()">
+        📚 履歴
+        <span class="history-badge" id="historyBadge" style="display:none">0</span>
+      </button>
     </div>
   </div>
 
-  <!-- LOADING -->
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    整理中です...
+  <!-- ── LOADING ── -->
+  <div id="loadingSection">
+    <div class="spinner">✨</div>
+    <div class="loading-text">ちょっと待ってね、整理中だよ〜！</div>
   </div>
 
-  <!-- RESULTS -->
-  <div id="results">
-    <div class="results-header">── 整理結果 ──</div>
-
-    <!-- Overall summary -->
-    <div class="summary-card" id="summaryCard">
-      <div class="summary-title">💬 会話で使えるまとめ</div>
-      <div class="summary-text" id="summaryText"></div>
-      <button class="copy-btn" onclick="copyText('summaryText')">📋 コピー</button>
+  <!-- ── RESULT CARD ── -->
+  <div class="card" id="resultSection">
+    <div class="section-label" id="resultLabel" style="color:#db2777">🌸 整理できたよ！</div>
+    <div id="moodBanner" style="display:none"></div>
+    <div class="category-chips" id="categoryChips"></div>
+    <div class="result-box" id="resultBox"></div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyResult()">📋 コピーする</button>
+      <button class="btn btn-download" onclick="downloadResult()">💾 テキストで保存</button>
     </div>
-
-    <!-- Category cards -->
-    <div id="categoryCards"></div>
   </div>
 </div>
 
+<!-- ── HISTORY MODAL ── -->
+<div class="modal-overlay" id="historyModal" onclick="closeHistory(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">📚 過去の整理メモ</span>
+      <div class="modal-header-actions">
+        <button class="btn-delete-all" onclick="clearAllHistory()">全部消す</button>
+        <button class="btn-close" onclick="closeHistory()">×</button>
+      </div>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════ -->
 <script>
-// ─────────────────────────────────────────────────
-//  CATEGORY DEFINITIONS
-// ─────────────────────────────────────────────────
+
+/* ─── CATEGORIES ─────────────────────────────────────── */
 const CATEGORIES = [
-  {
-    id: 'work',
-    name: '仕事・学校',
-    icon: '📚',
-    colorBg: '#ede9ff',
-    colorDot: '#7c6fcd',
-    keywords: [
-      '仕事','会社','職場','学校','授業','課題','上司','同僚','先生','勉強',
-      'バイト','アルバイト','面接','プレゼン','会議','提出','締め切り','テスト',
-      '試験','レポート','ゼミ','部活','委員会','職員','社員','業務','タスク',
-      '研修','残業','出社','リモート','オフィス','クライアント','打ち合わせ',
-      '授業中','講義','単位','卒論','就活','インターン'
-    ]
-  },
-  {
-    id: 'relationship',
-    name: '人間関係',
-    icon: '👥',
-    colorBg: '#e6faf4',
-    colorDot: '#00b894',
-    keywords: [
-      '友達','友人','家族','お母さん','お父さん','母','父','兄','姉','弟','妹',
-      '彼氏','彼女','パートナー','恋人','先輩','後輩','同期','グループ','チーム',
-      '仲間','クラス','クラスメート','隣の','あの人','あいつ','同僚','上司','部下',
-      '親友','知り合い','付き合い'
-    ]
-  },
-  {
-    id: 'emotion',
-    name: '気持ち・感情',
-    icon: '💭',
-    colorBg: '#fff3f0',
-    colorDot: '#e17055',
-    keywords: [
-      '嬉しい','悲しい','辛い','楽しい','怖い','不安','心配','ストレス','イライラ',
-      '疲れ','気持ち','感じ','焦り','安心','幸せ','落ち込','むかつ','びっくり',
-      '驚き','緊張','恥ずかしい','恥ずかし','照れ','寂し','孤独','むなし','虚し',
-      '後悔','自己嫌悪','もやもや','モヤモヤ','なんか','なんとなく','複雑',
-      'ほっと','うれし','かなし','つら','かわいそう'
-    ]
-  },
-  {
-    id: 'health',
-    name: '体調・健康',
-    icon: '🌱',
-    colorBg: '#f0fff8',
-    colorDot: '#00cec9',
-    keywords: [
-      '体調','病気','頭痛','腹痛','眠れない','疲労','病院','薬','食欲','睡眠',
-      '熱','風邪','だるい','痛い','眠い','体が','体調不良','めまい','吐き気',
-      '食べられ','食べれ','お腹','胃','肩こり','腰痛','生理','休息','休んだ',
-      '寝れ','寝られ','不眠','過労','ぐったり'
-    ]
-  },
-  {
-    id: 'trouble',
-    name: '困りごと・悩み',
-    icon: '🤔',
-    colorBg: '#fffbf0',
-    colorDot: '#e6a817',
-    keywords: [
-      '困った','困っている','悩み','悩んで','問題','トラブル','失敗','ミス',
-      '怒られ','うまくいかない','難しい','迷っている','迷って','どうすれば',
-      'どうしよう','どうすれ','わからない','分からない','できない','苦手',
-      '避けて','逃げ','うまく言え','うまく伝え','言えない','伝わらない',
-      'しんどい','きつい','つまずい','行き詰'
-    ]
-  },
-  {
-    id: 'hobby',
-    name: '趣味・出来事',
-    icon: '⭐',
-    colorBg: '#f0f6ff',
-    colorDot: '#4a9edd',
-    keywords: [
-      '映画','音楽','ゲーム','読書','スポーツ','料理','旅行','買い物',
-      '食べた','食べに','行った','見た','聞いた','やった','遊んだ','楽しんだ',
-      'カフェ','散歩','運動','推し','アニメ','漫画','ドラマ','コンサート',
-      'ライブ','イベント','SNS','YouTube','Netflix'
-    ]
-  }
+  { id: 'work',   label: '📚 仕事・学校', keywords: ['仕事','会社','職場','学校','授業','課題','上司','同僚','先生','勉強','バイト','会議','提出','締め切り','テスト','試験','レポート','残業','プレゼン'] },
+  { id: 'friend', label: '👥 人間関係',   keywords: ['友達','友人','彼氏','彼女','家族','親','兄','姉','弟','妹','先輩','後輩','関係','喧嘩','仲直り','気まずい','連絡'] },
+  { id: 'feel',   label: '💜 気持ち',     keywords: ['嬉しい','悲しい','怖い','不安','寂しい','つらい','しんどい','疲れ','ストレス','モヤモヤ','落ち込','やる気','イライラ','ホッ','安心'] },
+  { id: 'body',   label: '🌿 体・健康',   keywords: ['体','疲れ','眠れ','睡眠','食欲','頭痛','病気','病院','体調','運動','ダイエット','太っ'] },
+  { id: 'future', label: '🌈 これから',   keywords: ['将来','未来','目標','夢','転職','就活','引越し','計画','やりたい','変えたい','決め'] },
+  { id: 'daily',  label: '☀️ 日常',       keywords: ['今日','昨日','朝','夜','ご飯','買い物','天気','散歩','家','部屋','趣味','映画','音楽','読書'] },
 ];
 
-// ─────────────────────────────────────────────────
-//  CLASSIFICATION
-// ─────────────────────────────────────────────────
-function classifyItem(text) {
-  const scores = {};
-  CATEGORIES.forEach(cat => {
-    scores[cat.id] = cat.keywords.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
-  });
-  let best = null, bestScore = 0;
-  Object.entries(scores).forEach(([id, score]) => {
-    if (score > bestScore) { bestScore = score; best = id; }
-  });
-  return best || 'other';
+function detectCategories(text) {
+  const found = [];
+  for (const cat of CATEGORIES) {
+    if (cat.keywords.some(kw => text.includes(kw))) found.push(cat.label);
+    if (found.length >= 4) break;
+  }
+  return found;
 }
 
-// ─────────────────────────────────────────────────
-//  ITEM TYPE DETECTION
-// ─────────────────────────────────────────────────
-const EVENT_WORDS   = ['した','だった','あった','行った','言われた','怒られた','できた','もらった','送った','来た','会った'];
-const EMOTION_WORDS = ['嬉しい','悲しい','辛い','不安','心配','ストレス','イライラ','疲れ','落ち込','もやもや','モヤモヤ','焦り','緊張','寂し','虚し','恥ずかし','しんどい'];
-const CAUSE_WORDS   = ['から','ので','ため','せいで','おかげで','だから','なので'];
-const WISH_WORDS    = ['したい','してほしい','なりたい','できれば','できたら','うまく','うまくなり','解決','改善','伝えたい'];
+/* ─── SENTIMENT ──────────────────────────────────────── */
+const POSITIVE_WORDS = [
+  '嬉しい','楽しい','よかった','うまくいった','成功','褒められ','認められ',
+  '感謝','ありがとう','最高','幸せ','ハッピー','ワクワク','できた','達成',
+  '好き','大好き','満足','すっきり','ホッ','安心','笑った','楽しかった',
+  'テンション上','やる気','前向き','いい感じ','順調','うまくいき','合格',
+  '楽しみ','喜び','ポジティブ','サイコー','うれしい','よかっ',
+];
+const NEGATIVE_WORDS = [
+  '悲しい','つらい','しんどい','疲れ','不安','怖い','落ち込','寂しい',
+  'ストレス','モヤモヤ','イライラ','辛い','怒り','泣き','泣いた',
+  'うまくいかない','怒られ','失敗','後悔','ミス','ダメ','嫌','嫌い',
+  'もう無理','限界','やめたい','逃げ','消えたい','しんど','つらかっ',
+  '泣いてしまっ','泣きそう','きつい','苦しい','自信','怒られた',
+];
 
-function detectType(text) {
-  if (WISH_WORDS.some(w => text.includes(w))) return 'wish';
-  if (EMOTION_WORDS.some(w => text.includes(w))) return 'emotion';
-  if (CAUSE_WORDS.some(w => text.includes(w))) return 'cause';
-  if (EVENT_WORDS.some(w => text.includes(w))) return 'event';
-  return 'fact';
+const PRAISE_MESSAGES = [
+  '🌟 すごいじゃん！その調子でいこう！',
+  '✨ いいこと起きたね〜！ちゃんと自分を褒めてあげてね！',
+  '🎉 最高！この感じ、大事にしてほしいな！',
+  '💪 うまくいってるじゃん！この流れ、乗っていこう！',
+  '🌈 素晴らしい！その感覚、ずっと覚えてて！',
+  '🎊 やったじゃん！本当によく頑張ったね！',
+];
+
+const COMFORT_MESSAGES = [
+  '🫂 大変だったね。よくここまで頑張ったよ。',
+  '💜 つらい気持ち、ちゃんと受け取ったよ。無理しなくていいからね。',
+  '🌷 そう感じるのは全然おかしくないよ。あなたの気持ちは本物だよ。',
+  '☁️ 今しんどいね。でも、話してくれてよかった。一人じゃないよ。',
+  '🤝 一人で抱えすぎないでね。ここに吐き出して正解だよ。',
+  '🌙 今日はもう十分頑張ったよ。ゆっくり休んでね。',
+];
+
+function detectSentiment(text) {
+  let pos = 0, neg = 0;
+  for (const w of POSITIVE_WORDS) if (text.includes(w)) pos++;
+  for (const w of NEGATIVE_WORDS) if (text.includes(w)) neg++;
+  if (pos === 0 && neg === 0) return 'neutral';
+  return pos >= neg ? 'positive' : 'negative';
 }
 
-// ─────────────────────────────────────────────────
-//  ORGANIZE: add connective phrases
-// ─────────────────────────────────────────────────
-const TRANSITIONS = {
-  'fact→fact':     'また、',
-  'fact→event':    '',
-  'fact→emotion':  'そのせいか、',
-  'fact→cause':    'というのも、',
-  'fact→wish':     'だから、',
-  'event→fact':    'それから、',
-  'event→event':   'さらに、',
-  'event→emotion': 'そのせいで、',
-  'event→cause':   'というのも、',
-  'event→wish':    'だから、',
-  'emotion→fact':  'でも、',
-  'emotion→event': 'そんな中、',
-  'emotion→emotion':'それに、',
-  'emotion→cause': 'なぜかというと、',
-  'emotion→wish':  'だから、',
-  'cause→fact':    'だから、',
-  'cause→event':   'そのため、',
-  'cause→emotion': 'そのせいで、',
-  'cause→wish':    'それで、',
-  'wish→fact':     'ちなみに、',
-  'wish→event':    'ちなみに、',
-  'wish→wish':     'また、',
+function randomPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ─── HISTORY ─────────────────────────────────────────── */
+const HISTORY_KEY = 'think-history-v2';
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+}
+
+function saveHistory(items) {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(items)); } catch {}
+  updateHistoryBadge(items.length);
+}
+
+function addToHistory(input, output) {
+  const items = loadHistory();
+  items.unshift({ id: Date.now().toString(), input, output, createdAt: new Date().toISOString() });
+  saveHistory(items.slice(0, 30));
+}
+
+function updateHistoryBadge(count) {
+  const badge = document.getElementById('historyBadge');
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+}
+
+/* ─── SPEECH RECOGNITION ──────────────────────────────── */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let isListening = false;
+
+if (SR) {
+  // Show mic button
+  document.querySelectorAll('.no-speech').forEach(el => el.classList.remove('no-speech'));
+  document.getElementById('micHint').classList.add('visible');
+
+  recognition = new SR();
+  recognition.lang = 'ja-JP';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  let finalTranscript = '';
+
+  recognition.onresult = (e) => {
+    let interim = '';
+    finalTranscript = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) finalTranscript += t;
+      else interim += t;
+    }
+    const area = document.getElementById('inputArea');
+    // Append to existing text
+    area.value = (area.dataset.base || '') + (finalTranscript || interim);
+    if (finalTranscript) area.dataset.base = area.value;
+    updateCharCount();
+  };
+
+  recognition.onerror = () => stopMic();
+  recognition.onend   = () => { if (isListening) recognition.start(); };
+}
+
+function toggleMic() {
+  if (!recognition) return;
+  if (isListening) stopMic(); else startMic();
+}
+
+function startMic() {
+  isListening = true;
+  document.getElementById('inputArea').dataset.base = document.getElementById('inputArea').value;
+  document.getElementById('micBtn').classList.add('listening');
+  document.getElementById('micBtn').textContent = '⏹️';
+  recognition.start();
+  showToast('🎙️ 話してみてね！');
+}
+
+function stopMic() {
+  isListening = false;
+  document.getElementById('micBtn').classList.remove('listening');
+  document.getElementById('micBtn').textContent = '🎙️';
+  try { recognition.stop(); } catch {}
+}
+
+/* ─── INPUT HANDLING ─────────────────────────────────── */
+document.getElementById('inputArea').addEventListener('input', updateCharCount);
+
+function updateCharCount() {
+  const val = document.getElementById('inputArea').value;
+  document.getElementById('charCount').textContent = val.length;
+  document.getElementById('organizeBtn').disabled = val.trim().length === 0;
+}
+
+/* ─── テキスト整理ロジック（ローカル処理） ──────────── */
+
+const CAT_INTROS = {
+  work:   ['仕事や学校のこと', '学校・仕事のこと'],
+  friend: ['人間関係のこと', '友達や周りのこと'],
+  feel:   ['気持ちのこと', '最近の気持ち'],
+  body:   ['体のこと', '体調のこと'],
+  future: ['これからのこと', '将来のこと'],
+  daily:  ['日常のこと', 'ちょっとしたこと'],
 };
 
-function getTransition(fromType, toType) {
-  return TRANSITIONS[`${fromType}→${toType}`] || 'それから、';
-}
+const OPENERS = [
+  (i) => `${i}なんですが、`,
+  (i) => `実は${i}があって、`,
+  (i) => `${i}で話したいことがあって、`,
+];
 
-function organizeItems(items) {
-  if (items.length === 0) return '';
+const CLOSERS_POS = [
+  'うまくいってる感じがして、嬉しいんですよね！',
+  'なんかいい感じで、気分が上がってます！',
+  'ちょっと自信ついてきた気がします！',
+];
 
-  // Type each item and sort: fact/event → cause → emotion → wish
-  const ORDER = { fact: 0, event: 0, cause: 1, emotion: 2, wish: 3 };
-  const typed = items.map(text => ({ text: cleanBullet(text), type: detectType(text) }));
-  typed.sort((a, b) => ORDER[a.type] - ORDER[b.type]);
+const CLOSERS_NEG = [
+  'ちょっと話を聞いてもらえると助かります。',
+  'なんか気になってて、誰かに話したかったんです。',
+  'どう思うか聞かせてもらえると嬉しいです。',
+  'うまく言えないけど、なんかモヤモヤしてて。',
+];
 
-  const parts = typed.map((item, i) => {
-    if (i === 0) {
-      // First item: gentle opener
-      if (item.type === 'emotion') return '実は、' + item.text;
-      if (item.type === 'trouble') return 'ちょっと困っているんですが、' + item.text;
-      return item.text;
-    }
-    const prev = typed[i - 1];
-    const trans = getTransition(prev.type, item.type);
-    return trans + item.text;
-  });
+const CLOSERS_NEU = [
+  '話を聞いてもらえると助かります。',
+  'ちょっと聞いてほしくて。',
+  'どう思うか聞かせてもらえる？',
+  '誰かに話したかったんですよね。',
+];
 
-  // 文末を自然に補う
-  return parts.map(p => {
-    const last = p.slice(-1);
-    // 句読点・自然な語尾はそのまま
-    if (['。','！','？','…'].includes(last)) return p;
-    // 〜い、〜す、〜た、〜だ、〜ん などの文末語尾もそのまま
-    if (['い','す','た','だ','ん','る','ね','よ','な'].includes(last)) return p + '。';
-    // 〜て、〜で、〜が など途中で切れている感じのものは「…」で和らげる
-    if (['て','で','が','し','く','に','を','は'].includes(last)) return p + '…';
-    return p + '。';
-  }).join('\n');
-}
-
-// ─────────────────────────────────────────────────
-//  SUMMARY GENERATION
-// ─────────────────────────────────────────────────
-
-// 末尾に句読点がなければ補う
-function addPunct(text) {
-  const last = text.slice(-1);
-  return ['。','！','？','…','、'].includes(last) ? text : text + '。';
-}
-
-// 末尾が自然な文末（〜て、〜で、〜が）のとき「…」を補う
-function softEnd(text) {
-  const last = text.slice(-1);
-  return ['て','で','が','し','く','に','を','は'].includes(last) ? text + '…' : addPunct(text);
-}
-
-// 「〜できた」「〜なった」「楽になった」など前向きな文かを判定
-function isPositive(text) {
-  return ['楽になった','嬉しかった','楽しかった','助かった','癒された','うまくいった','解決'].some(w => text.includes(w));
-}
-
-function generateSummary(grouped) {
-  const catOrder = ['trouble', 'work', 'relationship', 'emotion', 'health', 'hobby', 'other'];
-  const activeCats = catOrder.filter(id => grouped[id] && grouped[id].length > 0);
-  if (activeCats.length === 0) return '整理された内容がありません。';
-
-  // 全アイテムをタイプ付きで収集
-  const all = [];
-  activeCats.forEach(catId => {
-    grouped[catId].forEach(raw => {
-      const text = cleanBullet(raw);
-      all.push({ text, type: detectType(text), catId });
-    });
-  });
-
-  // ── 1. 冒頭：一番「話のタネ」になりそうな出来事 ──
-  const openerItem =
-    all.find(i => i.catId === 'trouble' && ['event','fact'].includes(i.type)) ||
-    all.find(i => i.catId === 'work'    && ['event','fact'].includes(i.type)) ||
-    all.find(i => ['event','fact'].includes(i.type)) ||
-    all[0];
-
-  const openerPrefix = {
-    trouble:      'ちょっと困ったことがあって、',
-    work:         '仕事（学校）のことなんですが、',
-    relationship: '人間関係でちょっとあって、',
-    health:       '最近体調がよくなくて、',
-    emotion:      '最近なんか、',
-  }[openerItem.catId] ?? '実は、';
-
-  const lines = [];
-  lines.push(softEnd(openerPrefix + openerItem.text));
-
-  // ── 2. 中間：原因 or 追加の出来事（冒頭と別のもの） ──
-  const midItem =
-    all.find(i => i !== openerItem && i.type === 'cause') ||
-    all.find(i => i !== openerItem && ['event','fact'].includes(i.type) && ['trouble','work'].includes(i.catId));
-
-  if (midItem) {
-    const midPrefix = midItem.type === 'cause' ? 'というのも、' : 'さらに、';
-    lines.push(softEnd(midPrefix + midItem.text));
-  }
-
-  // ── 3. 気持ち ──
-  const emotionItem = all.find(i => i.type === 'emotion' && i !== openerItem && i !== midItem);
-  if (emotionItem) {
-    const emotionPrefix = lines.length > 1 ? 'そのせいか、' : '最近、';
-    lines.push(softEnd(emotionPrefix + emotionItem.text));
-  }
-
-  // ── 4. 体調（感情と別に存在する場合のみ） ──
-  const healthItems = grouped['health'] || [];
-  if (healthItems.length > 0 && openerItem.catId !== 'health') {
-    const h = cleanBullet(healthItems[0]);
-    if (h !== openerItem.text) {
-      lines.push(softEnd('体にも影響が出てきていて、' + h));
-    }
-  }
-
-  // ── 5. ポジティブな出来事（あれば） ──
-  const positiveItem = all.find(i =>
-    i !== openerItem && i !== midItem && i !== emotionItem && isPositive(i.text)
-  );
-  if (positiveItem) {
-    lines.push(softEnd('ただ、' + positiveItem.text));
-  }
-
-  // ── 6. 希望・やりたいこと ──
-  const wishItem = all.find(i => i.type === 'wish');
-  if (wishItem) {
-    lines.push(addPunct('だから、' + wishItem.text));
-  }
-
-  // ── クロージング ──
-  const closer = wishItem
-    ? 'よければ相談に乗ってもらえますか？'
-    : '話を聞いてもらえると助かります。';
-
-  // 重複行を除去して結合
-  const unique = [...new Set(lines)];
-  return unique.join('\n') + '\n\n' + closer;
-}
-
-// ─────────────────────────────────────────────────
-//  HELPERS
-// ─────────────────────────────────────────────────
-function cleanBullet(text) {
-  return text.replace(/^[\s・\-\*•◦▷▶︎➡️]+/, '')
-             .replace(/^[０-９0-9]+[\.。）)．]\s*/, '')
-             .trim();
-}
-
-function parseLines(raw) {
-  return raw.split('\n')
-    .map(l => l.trim())
-    .filter(l => l.length > 0)
-    .map(cleanBullet)
+function parseLines(text) {
+  return text.split('\n')
+    .map(l => l.replace(/^[・\-\*\s　]+/, '').trim())
     .filter(l => l.length > 0);
 }
 
-// ─────────────────────────────────────────────────
-//  MAIN: organize()
-// ─────────────────────────────────────────────────
-function organize() {
-  const raw = document.getElementById('inputArea').value.trim();
-  if (!raw) {
-    shake(document.getElementById('inputArea'));
+function classifyLine(text) {
+  for (const cat of CATEGORIES) {
+    if (cat.keywords.some(kw => text.includes(kw))) return cat;
+  }
+  return CATEGORIES[5];
+}
+
+function buildSummary(lines, mood) {
+  const groups = new Map();
+  for (const line of lines) {
+    const cat = classifyLine(line);
+    if (!groups.has(cat.id)) groups.set(cat.id, { cat, items: [] });
+    groups.get(cat.id).items.push(line);
+  }
+
+  const parts = [];
+  for (const { cat, items } of groups.values()) {
+    const intros = CAT_INTROS[cat.id] || CAT_INTROS.daily;
+    const intro  = intros[Math.floor(Math.random() * intros.length)];
+    const opener = OPENERS[Math.floor(Math.random() * OPENERS.length)](intro);
+    if (items.length === 1) {
+      parts.push(`${opener}${items[0]}。`);
+    } else {
+      const body = items.slice(0, -1).join('したり、') + 'したり、' + items[items.length - 1];
+      parts.push(`${opener}${body}。`);
+    }
+  }
+
+  const pool   = mood === 'positive' ? CLOSERS_POS : mood === 'negative' ? CLOSERS_NEG : CLOSERS_NEU;
+  const closer = pool[Math.floor(Math.random() * pool.length)];
+  return parts.join('\n\n') + '\n\n' + closer;
+}
+
+/* ─── ORGANIZE ─────────────────────────────────────────── */
+
+async function organize() {
+  const input = document.getElementById('inputArea').value.trim();
+  if (!input) return;
+  if (isListening) stopMic();
+
+  showLoading(true);
+  document.getElementById('resultSection').style.display = 'none';
+
+  await new Promise(r => setTimeout(r, 600));
+
+  const lines  = parseLines(input);
+  const mood   = detectSentiment(input);
+  const result = buildSummary(lines, mood);
+
+  showResult(input, result);
+}
+
+/* ─── SHOW RESULT ────────────────────────────────────── */
+function showResult(input, result) {
+  showLoading(false);
+
+  // ── ムード判定 & バナー表示 ──
+  const mood   = detectSentiment(input + ' ' + result);
+  const banner = document.getElementById('moodBanner');
+  const label  = document.getElementById('resultLabel');
+
+  if (mood === 'positive') {
+    banner.className   = 'mood-banner mood-positive';
+    banner.textContent = randomPick(PRAISE_MESSAGES);
+    banner.style.display = 'block';
+    label.textContent  = '🌟 やったじゃん！整理できたよ！';
+    label.style.color  = '#065f46';
+  } else if (mood === 'negative') {
+    banner.className   = 'mood-banner mood-negative';
+    banner.textContent = randomPick(COMFORT_MESSAGES);
+    banner.style.display = 'block';
+    label.textContent  = '💜 ちゃんと受け取ったよ。整理できたよ！';
+    label.style.color  = '#7c3aed';
+  } else {
+    banner.style.display = 'none';
+    label.textContent  = '🌸 整理できたよ！';
+    label.style.color  = '#db2777';
+  }
+
+  // ── カテゴリ ──
+  const chips = detectCategories(input + ' ' + result);
+  document.getElementById('categoryChips').innerHTML = chips.map((lbl, i) =>
+    `<span class="chip chip-${i % 6}">${lbl}</span>`
+  ).join('');
+
+  document.getElementById('resultBox').textContent = result;
+  document.getElementById('resultSection').style.display = 'block';
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  addToHistory(input, result);
+}
+
+/* ─── LOADING ─────────────────────────────────────────── */
+function showLoading(show) {
+  document.getElementById('loadingSection').style.display = show ? 'block' : 'none';
+}
+
+/* ─── COPY / DOWNLOAD ────────────────────────────────── */
+function copyResult() {
+  const text = document.getElementById('resultBox').textContent;
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('📋 コピーしたよ！'))
+    .catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 コピーしたよ！');
+    });
+}
+
+function downloadResult() {
+  const input  = document.getElementById('inputArea').value;
+  const result = document.getElementById('resultBox').textContent;
+  const date   = new Date().toLocaleDateString('ja-JP').replace(/\//g, '-');
+  const content = `━━━ 思考整理メモ (${date}) ━━━\n\n【入力した内容】\n${input}\n\n【整理した結果】\n${result}\n`;
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `思考整理メモ_${date}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('💾 ダウンロードしたよ！');
+}
+
+/* ─── CLEAR ──────────────────────────────────────────── */
+function clearAll() {
+  document.getElementById('inputArea').value = '';
+  delete document.getElementById('inputArea').dataset.base;
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('organizeBtn').disabled = true;
+  document.getElementById('resultSection').style.display = 'none';
+  if (isListening) stopMic();
+}
+
+/* ─── HISTORY MODAL ──────────────────────────────────── */
+function openHistory() {
+  renderHistoryList();
+  document.getElementById('historyModal').classList.add('open');
+}
+
+function closeHistory(e) {
+  if (!e || e.target === document.getElementById('historyModal')) {
+    document.getElementById('historyModal').classList.remove('open');
+  }
+}
+
+function renderHistoryList() {
+  const items = loadHistory();
+  const list  = document.getElementById('historyList');
+
+  if (items.length === 0) {
+    list.innerHTML = '<div class="history-empty">まだ整理した記録がないよ 📝</div>';
     return;
   }
 
-  const lines = parseLines(raw);
-  if (lines.length === 0) return;
-
-  // Show loading
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('results').style.display = 'none';
-
-  // Slight delay for UX feel
-  setTimeout(() => {
-    // Classify
-    const grouped = {};
-    lines.forEach(line => {
-      const cat = classifyItem(line);
-      if (!grouped[cat]) grouped[cat] = [];
-      grouped[cat].push(line);
-    });
-
-    // Render
-    renderResults(grouped);
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 600);
-}
-
-function renderResults(grouped) {
-  // Summary
-  document.getElementById('summaryText').textContent = generateSummary(grouped);
-
-  // Category cards
-  const container = document.getElementById('categoryCards');
-  container.innerHTML = '';
-
-  const catOrder = ['trouble', 'emotion', 'work', 'relationship', 'health', 'hobby', 'other'];
-
-  catOrder.forEach(catId => {
-    const items = grouped[catId];
-    if (!items || items.length === 0) return;
-
-    const cat = CATEGORIES.find(c => c.id === catId);
-    const name = cat ? cat.name : 'その他';
-    const icon = cat ? cat.icon : '📌';
-    const colorBg = cat ? cat.colorBg : '#f5f5f5';
-    const colorDot = cat ? cat.colorDot : '#888';
-
-    const organized = organizeItems(items);
-
-    const card = document.createElement('div');
-    card.className = 'cat-card' + (catId === 'other' ? ' other-card' : '');
-    card.innerHTML = `
-      <div class="cat-header" style="background:${colorBg}">
-        <div class="cat-icon" style="background:${colorDot}22">${icon}</div>
-        <span style="color:${colorDot}">${name}</span>
-        <span style="color:#aaa;font-weight:400;font-size:13px;margin-left:auto">${items.length}件</span>
-      </div>
-      <div class="cat-body">
-        <div class="raw-items">
-          ${items.map(item => `
-            <div class="raw-item">
-              <div class="raw-dot" style="background:${colorDot}"></div>
-              <span>${escHtml(item)}</span>
-            </div>`).join('')}
+  list.innerHTML = items.map((item, i) => {
+    const cls    = `history-item history-item-${i % 6}`;
+    const d      = new Date(item.createdAt);
+    const dateStr = d.toLocaleDateString('ja-JP') + ' ' + d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+    const preview = item.input.replace(/\n/g, '　').substring(0, 80);
+    return `
+      <div class="${cls}">
+        <div class="history-meta">
+          <span class="history-date">🕐 ${dateStr}</span>
+          <button class="btn-history-del" onclick="deleteHistory('${item.id}')">✕</button>
         </div>
-        <div class="organized-label">✨ 話の流れに整理</div>
-        <div class="organized-text" id="org-${catId}">${escHtml(organized)}</div>
-        <button class="copy-btn" onclick="copyText('org-${catId}')">📋 コピー</button>
+        <div class="history-preview">${escapeHtml(preview)}</div>
+        <button class="btn-restore" onclick="restoreHistory('${item.id}')">→ これを読み込む</button>
       </div>
     `;
-    container.appendChild(card);
-  });
+  }).join('');
 }
 
-// ─────────────────────────────────────────────────
-//  UI HELPERS
-// ─────────────────────────────────────────────────
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function restoreHistory(id) {
+  const item = loadHistory().find(h => h.id === id);
+  if (!item) return;
+  document.getElementById('inputArea').value = item.input;
+  updateCharCount();
+  showResult(item.input, item.output);
+  closeHistory();
 }
 
-function clearAll() {
-  document.getElementById('inputArea').value = '';
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('charCount').textContent = '0';
+function deleteHistory(id) {
+  saveHistory(loadHistory().filter(h => h.id !== id));
+  renderHistoryList();
 }
 
-function copyText(id) {
-  const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✅ コピーしました';
-    setTimeout(() => { btn.textContent = orig; }, 1800);
-  });
+function clearAllHistory() {
+  if (!confirm('履歴を全部消す？')) return;
+  saveHistory([]);
+  renderHistoryList();
 }
 
-function shake(el) {
-  el.style.animation = 'none';
-  el.style.borderColor = '#e74c3c';
-  el.offsetHeight;
-  setTimeout(() => {
-    el.style.borderColor = '';
-    el.placeholder = '何か書いてみてください…';
-  }, 1000);
+/* ─── TOAST ──────────────────────────────────────────── */
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
 }
 
-function insertExample() {
-  const example = `・今日の会議でうまく発言できなかった
-・上司に「もっとはっきり話して」と言われた
-・頑張って準備したのにうまくいかなくて落ち込んでいる
-・帰りに友達と少し話したら気持ちが楽になった
-・最近ずっと緊張していて疲れてる気がする
-・次は少しだけでも自分の意見を言えるようになりたい
-・睡眠が浅くてなんか体も重い`;
-  document.getElementById('inputArea').value = example;
-  document.getElementById('charCount').textContent = example.length;
+/* ─── UTILS ──────────────────────────────────────────── */
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// Char counter
-document.getElementById('inputArea').addEventListener('input', function() {
-  document.getElementById('charCount').textContent = this.value.length;
-});
+/* ─── INIT ───────────────────────────────────────────── */
+(function init() {
+  updateHistoryBadge(loadHistory().length);
+})();
 
-// Enter key hint on load
-window.addEventListener('load', () => {
-  document.getElementById('charCount').textContent = '0';
-});
 </script>
 </body>
 </html>
