@@ -5,13 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>思考整理ノート</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-<!-- ⚙️ Firebase SDK (世界フィード機能用) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <style>
-
 /* ─── BASE ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -29,9 +23,11 @@ body {
   background: linear-gradient(135deg, #fdf4ff 0%, #fce7f3 35%, #fef9c3 70%, #ecfdf5 100%);
   padding: 24px 16px 60px;
 }
-
 /* ─── HEADER ────────────────────────────────────── */
-header { text-align: center; margin-bottom: 32px; }
+header {
+  text-align: center;
+  margin-bottom: 32px;
+}
 .logo {
   font-family: 'Nunito', 'Noto Sans JP', sans-serif;
   font-size: clamp(2rem, 6vw, 3.2rem);
@@ -43,10 +39,16 @@ header { text-align: center; margin-bottom: 32px; }
   line-height: 1.1;
   margin-bottom: 8px;
 }
-.subtitle { color: #7c6f99; font-size: 0.95rem; font-weight: 500; }
-
+.subtitle {
+  color: #7c6f99;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
 /* ─── LAYOUT ─────────────────────────────────────── */
-.container { max-width: 720px; margin: 0 auto; }
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
 .card {
   background: #fff;
   border-radius: var(--radius);
@@ -56,7 +58,9 @@ header { text-align: center; margin-bottom: 32px; }
   border: 2px solid transparent;
   transition: border-color .2s;
 }
-.card:focus-within { border-color: #e9d5ff; }
+.card:focus-within {
+  border-color: #e9d5ff;
+}
 .section-label {
   font-size: 1rem;
   font-weight: 700;
@@ -65,7 +69,6 @@ header { text-align: center; margin-bottom: 32px; }
   align-items: center;
   gap: 6px;
 }
-
 /* ─── INPUT AREA ─────────────────────────────────── */
 .input-header {
   display: flex;
@@ -73,8 +76,16 @@ header { text-align: center; margin-bottom: 32px; }
   align-items: center;
   margin-bottom: 12px;
 }
-.input-label { font-size: 1rem; font-weight: 700; color: #6d28d9; }
-.char-count { font-size: 0.8rem; color: #a78bfa; font-weight: 600; }
+.input-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #6d28d9;
+}
+.char-count {
+  font-size: 0.8rem;
+  color: #a78bfa;
+  font-weight: 600;
+}
 #inputArea {
   width: 100%;
   min-height: 160px;
@@ -91,7 +102,6 @@ header { text-align: center; margin-bottom: 32px; }
 }
 #inputArea:focus { border-color: #a78bfa; }
 #inputArea::placeholder { color: #c4b5fd; }
-
 /* ─── BUTTONS ─────────────────────────────────────── */
 .btn-row {
   display: flex;
@@ -134,9 +144,12 @@ header { text-align: center; margin-bottom: 32px; }
 }
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+  50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
 }
-.btn-clear { background: #f3f4f6; color: #6b7280; }
+.btn-clear {
+  background: #f3f4f6;
+  color: #6b7280;
+}
 .btn-history {
   background: #fef3c7;
   color: #92400e;
@@ -153,71 +166,51 @@ header { text-align: center; margin-bottom: 32px; }
   width: 18px; height: 18px;
   display: flex; align-items: center; justify-content: center;
 }
-.btn-copy { background: #fce7f3; color: #9d174d; flex: 1; justify-content: center; }
-.btn-download { background: #d1fae5; color: #065f46; flex: 1; justify-content: center; }
-
-/* ─── 世界フィード ボタン ──────────────────────────── */
-.btn-world {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  color: #fff;
+.btn-copy {
+  background: #fce7f3;
+  color: #9d174d;
+  flex: 1;
+  justify-content: center;
 }
-
-/* ─── 公開セクション ──────────────────────────────── */
-.publish-section {
-  margin-top: 16px;
-  padding: 16px 18px;
-  background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
-  border-radius: 14px;
-  border: 1.5px solid #a5f3fc;
-}
-.publish-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-.publish-question {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #0369a1;
-  line-height: 1.55;
-}
-.publish-question small {
-  display: block;
-  font-size: 0.72rem;
-  color: #64b5d9;
-  font-weight: 500;
-  margin-top: 2px;
-}
-.btn-publish {
-  background: linear-gradient(90deg, #10b981, #3b82f6);
-  color: #fff;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.btn-publish.published {
+.btn-download {
   background: #d1fae5;
   color: #065f46;
-  pointer-events: none;
+  flex: 1;
+  justify-content: center;
 }
-
 /* ─── MIC HINT ───────────────────────────────────── */
-.mic-hint { font-size: 0.75rem; color: #f59e0b; margin-top: 8px; display: none; }
+.mic-hint {
+  font-size: 0.75rem;
+  color: #f59e0b;
+  margin-top: 8px;
+  display: none;
+}
 .mic-hint.visible { display: block; }
-
 /* ─── LOADING ─────────────────────────────────────── */
-#loadingSection { display: none; text-align: center; padding: 32px; }
+#loadingSection {
+  display: none;
+  text-align: center;
+  padding: 32px;
+}
 .spinner {
   font-size: 2.4rem;
   animation: spin 1.2s linear infinite;
   display: inline-block;
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.loading-text { color: #8b5cf6; font-weight: 700; margin-top: 10px; }
-
+.loading-text {
+  color: #8b5cf6;
+  font-weight: 700;
+  margin-top: 10px;
+}
 /* ─── RESULT ─────────────────────────────────────── */
 #resultSection { display: none; }
-.category-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
 .chip {
   padding: 4px 14px;
   border-radius: 50px;
@@ -242,7 +235,6 @@ header { text-align: center; margin-bottom: 32px; }
   margin-bottom: 16px;
   border: 1.5px solid #e9d5ff;
 }
-
 /* ─── HISTORY MODAL ──────────────────────────────── */
 .modal-overlay {
   display: none;
@@ -273,17 +265,32 @@ header { text-align: center; margin-bottom: 32px; }
   padding: 20px 24px 16px;
   border-bottom: 1.5px solid #f3f4f6;
 }
-.modal-title { font-size: 1.1rem; font-weight: 800; color: #6d28d9; }
-.modal-header-actions { display: flex; align-items: center; gap: 12px; }
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #6d28d9;
+}
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .btn-delete-all {
-  font-size: 0.78rem; color: #ef4444;
-  background: none; border: none; cursor: pointer;
-  font-family: inherit; font-weight: 600;
+  font-size: 0.78rem;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
 }
 .btn-close {
-  background: none; border: none;
-  font-size: 1.5rem; cursor: pointer;
-  color: #9ca3af; line-height: 1;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #9ca3af;
+  line-height: 1;
 }
 .history-list {
   overflow-y: auto;
@@ -312,92 +319,45 @@ header { text-align: center; margin-bottom: 32px; }
   align-items: flex-start;
   margin-bottom: 6px;
 }
-.history-date { font-size: 0.72rem; font-weight: 700; color: #6b7280; }
+.history-date {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6b7280;
+}
 .btn-history-del {
-  background: none; border: none;
-  font-size: 0.85rem; cursor: pointer;
-  color: #9ca3af; transition: color .15s; padding: 0 2px;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: color .15s;
+  padding: 0 2px;
 }
 .btn-history-del:hover { color: #ef4444; }
 .history-preview {
-  font-size: 0.85rem; color: #374151;
-  line-clamp: 2; -webkit-line-clamp: 2;
-  display: -webkit-box; -webkit-box-orient: vertical;
-  overflow: hidden; margin-bottom: 8px;
-}
-.btn-restore {
-  font-size: 0.78rem; font-weight: 700;
-  background: none; border: none; cursor: pointer;
-  font-family: inherit; color: #7c3aed;
-}
-.history-empty { text-align: center; padding: 40px 16px; color: #9ca3af; }
-
-/* ─── 世界フィード モーダル ─────────────────────── */
-#worldModal .modal-title { color: #1d4ed8; }
-
-.world-post {
-  border-radius: 14px;
-  padding: 14px 16px;
-}
-.world-post-pos {
-  background: linear-gradient(135deg, #fef9c3, #d1fae5);
-  border: 1.5px solid #6ee7b7;
-}
-.world-post-neg {
-  background: linear-gradient(135deg, #fce7f3, #ede9fe);
-  border: 1.5px solid #c4b5fd;
-}
-.world-post-neu {
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-  border: 1.5px solid #cbd5e1;
-}
-.world-post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-size: 0.85rem;
+  color: #374151;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin-bottom: 8px;
 }
-.world-post-mood { font-size: 1.25rem; }
-.world-post-time { font-size: 0.72rem; color: #9ca3af; font-weight: 600; }
-.world-post-text {
-  font-size: 0.88rem;
-  color: #374151;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin-bottom: 10px;
-}
-.world-post-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.world-chip {
-  padding: 2px 10px;
-  border-radius: 50px;
-  font-size: 0.7rem;
+.btn-restore {
+  font-size: 0.78rem;
   font-weight: 700;
-  background: rgba(255,255,255,0.75);
-  color: #6b7280;
-  border: 1px solid rgba(0,0,0,0.1);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: #7c3aed;
 }
-.world-loading { text-align: center; padding: 40px 16px; color: #9ca3af; }
-.world-empty   { text-align: center; padding: 40px 16px; color: #9ca3af; }
-
-.firebase-notice {
-  margin: 12px 0;
-  padding: 14px 16px;
-  background: #fef3c7;
-  border: 1.5px solid #fcd34d;
-  border-radius: 12px;
-  font-size: 0.83rem;
-  color: #78350f;
-  line-height: 1.7;
+.history-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: #9ca3af;
 }
-.firebase-notice a { color: #b45309; }
-.firebase-notice code {
-  background: rgba(0,0,0,0.07);
-  padding: 1px 5px;
-  border-radius: 4px;
-  font-size: 0.8em;
-}
-
 /* ─── TOAST ─────────────────────────────────────── */
 .toast {
   position: fixed;
@@ -414,14 +374,11 @@ header { text-align: center; margin-bottom: 32px; }
   white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-
 /* ─── RESPONSIVE ─────────────────────────────────── */
 @media (max-width: 500px) {
   .btn-row { gap: 8px; }
   .btn { padding: 10px 14px; font-size: 0.85rem; }
-  .publish-row { flex-direction: column; align-items: flex-start; }
 }
-
 /* ─── MOOD BANNER ────────────────────────────────── */
 .mood-banner {
   border-radius: 14px;
@@ -434,7 +391,7 @@ header { text-align: center; margin-bottom: 32px; }
 }
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .mood-positive {
   background: linear-gradient(135deg, #fef9c3, #d1fae5);
@@ -446,14 +403,16 @@ header { text-align: center; margin-bottom: 32px; }
   border: 2px solid #c4b5fd;
   color: #5b21b6;
 }
-
+.mood-neutral {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 2px solid #7dd3fc;
+  color: #0c4a6e;
+}
 /* ─── NO-SPEECH NOTE ─────────────────────────────── */
 .no-speech { display: none; }
-
 </style>
 </head>
 <body>
-
 <div class="container">
 
   <!-- ── HEADER ── -->
@@ -481,7 +440,6 @@ header { text-align: center; margin-bottom: 32px; }
         📚 履歴
         <span class="history-badge" id="historyBadge" style="display:none">0</span>
       </button>
-      <button class="btn btn-world" onclick="openWorldFeed()">🌍 世界</button>
     </div>
   </div>
 
@@ -501,20 +459,8 @@ header { text-align: center; margin-bottom: 32px; }
       <button class="btn btn-copy" onclick="copyResult()">📋 コピーする</button>
       <button class="btn btn-download" onclick="downloadResult()">💾 テキストで保存</button>
     </div>
-
-    <!-- ── 公開セクション ── -->
-    <div class="publish-section">
-      <div class="publish-row">
-        <div class="publish-question">
-          🌍 このモヤモヤ、世界に匿名で公開する？
-          <small>名前・個人情報は一切保存されません</small>
-        </div>
-        <button class="btn btn-publish" id="publishBtn" onclick="publishPost()">公開する</button>
-      </div>
-    </div>
   </div>
-
-</div><!-- /container -->
+</div>
 
 <!-- ── HISTORY MODAL ── -->
 <div class="modal-overlay" id="historyModal" onclick="closeHistory(event)">
@@ -530,49 +476,13 @@ header { text-align: center; margin-bottom: 32px; }
   </div>
 </div>
 
-<!-- ── 世界フィード モーダル ── -->
-<div class="modal-overlay" id="worldModal" onclick="closeWorldModal(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">🌍 世界のモヤモヤ</span>
-      <div class="modal-header-actions">
-        <button class="btn-close" onclick="closeWorldModal()">×</button>
-      </div>
-    </div>
-    <div class="history-list" id="worldFeedContent">
-      <div class="world-loading">読み込み中... ✨</div>
-    </div>
-  </div>
-</div>
-
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════ -->
 <script>
-
-/* ─── FIREBASE 設定 ─────────────────────────────── */
-const FIREBASE_CONFIG = {
-  apiKey:            "AIzaSyBi0bi4zx_v4iIchcNHbaZLrORQyqe7yS4",
-  authDomain:        "free-a84c6.firebaseapp.com",
-  databaseURL:       "https://free-a84c6-default-rtdb.firebaseio.com",
-  projectId:         "free-a84c6",
-  storageBucket:     "free-a84c6.firebasestorage.app",
-  messagingSenderId: "310488610177",
-  appId:             "1:310488610177:web:91c5c375da4873439c2480"
-};
-
-const FB_CONFIGURED = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
-let db = null;
-
-if (FB_CONFIGURED) {
-  try {
-    firebase.initializeApp(FIREBASE_CONFIG);
-    db = firebase.database();
-  } catch (e) {
-    console.error("Firebase init error:", e);
-  }
-}
-
 /* ─── CATEGORIES ─────────────────────────────────────── */
 const CATEGORIES = [
   { id: 'work',   label: '📚 仕事・学校', keywords: ['仕事','会社','職場','学校','授業','課題','上司','同僚','先生','勉強','バイト','会議','提出','締め切り','テスト','試験','レポート','残業','プレゼン'] },
@@ -593,10 +503,51 @@ function detectCategories(text) {
 }
 
 /* ─── SENTIMENT ──────────────────────────────────────── */
-const POSITIVE_WORDS = ['嬉しい','楽しい','よかった','うまくいった','成功','褒められ','認められ','感謝','ありがとう','最高','幸せ','ハッピー','ワクワク','できた','達成','好き','大好き','満足','すっきり','ホッ','安心','笑った','楽しかった','テンション上','やる気','前向き','いい感じ','順調','うまくいき','合格','楽しみ','喜び','ポジティブ','サイコー','うれしい','よかっ'];
-const NEGATIVE_WORDS = ['悲しい','つらい','しんどい','疲れ','不安','怖い','落ち込','寂しい','ストレス','モヤモヤ','イライラ','辛い','怒り','泣き','泣いた','うまくいかない','怒られ','失敗','後悔','ミス','ダメ','嫌','嫌い','もう無理','限界','やめたい','逃げ','消えたい','しんど','つらかっ','泣いてしまっ','泣きそう','きつい','苦しい','自信','怒られた'];
-const PRAISE_MESSAGES = ['🌟 すごいじゃん！その調子でいこう！','✨ いいこと起きたね〜！ちゃんと自分を褒めてあげてね！','🎉 最高！この感じ、大事にしてほしいな！','💪 うまくいってるじゃん！この流れ、乗っていこう！','🌈 素晴らしい！その感覚、ずっと覚えてて！','🎊 やったじゃん！本当によく頑張ったね！'];
-const COMFORT_MESSAGES = ['🫂 大変だったね。よくここまで頑張ったよ。','💜 つらい気持ち、ちゃんと受け取ったよ。無理しなくていいからね。','🌷 そう感じるのは全然おかしくないよ。あなたの気持ちは本物だよ。','☁️ 今しんどいね。でも、話してくれてよかった。一人じゃないよ。','🤝 一人で抱えすぎないでね。ここに吐き出して正解だよ。','🌙 今日はもう十分頑張ったよ。ゆっくり休んでね。'];
+const POSITIVE_WORDS = [
+  '嬉しい','楽しい','よかった','うまくいった','成功','褒められ','認められ',
+  '感謝','ありがとう','最高','幸せ','ハッピー','ワクワク','できた','達成',
+  '好き','大好き','満足','すっきり','ホッ','安心','笑った','楽しかった',
+  'テンション上','やる気','前向き','いい感じ','順調','うまくいき','合格',
+  '楽しみ','喜び','ポジティブ','サイコー','うれしい','よかっ',
+  'いいことがあった','嬉しかった','頑張れた','うれしかっ',
+  'できちゃった','やれた','いい日','いいこと','最高だった',
+  '楽しめた','うまくできた','喜んでもらえ','気持ちいい','スッキリ',
+  '通った','受かった','いけた','褒めてもらえ','認めてもらえ',
+  'ありがとうって言われ','楽しすぎ','テンションあがっ','やった','よし',
+];
+
+const NEGATIVE_WORDS = [
+  '悲しい','つらい','しんどい','疲れ','不安','怖い','落ち込','寂しい',
+  'ストレス','モヤモヤ','イライラ','辛い','怒り','泣き','泣いた',
+  'うまくいかない','怒られ','失敗','後悔','ミス','ダメ','嫌','嫌い',
+  'もう無理','限界','やめたい','逃げ','消えたい','しんど','つらかっ',
+  '泣いてしまっ','泣きそう','きつい','苦しい','自信','怒られた',
+];
+
+const PRAISE_MESSAGES = [
+  '🌟 それすごくない？！ちゃんと自分を褒めてあげてね！',
+  '✨ いいこと起きたじゃん〜！その感じ大事にしてほしいな！',
+  '🎉 やったじゃん！この調子でいこう！',
+  '💪 うまくいってるじゃん！この流れに乗っていこう！',
+  '🌈 素敵すぎる！その感覚、ずっと覚えといてね！',
+  '🎊 本当によく頑張ったじゃん！誇っていいやつだよ！',
+];
+
+const COMFORT_MESSAGES = [
+  '🫂 大変だったね。よくここまで頑張ったよ、えらい。',
+  '💜 つらい気持ち、ちゃんと受け取ったよ。無理しなくていいからね。',
+  '🌷 そう感じるのは全然おかしくないよ。あなたの気持ち、本物だよ。',
+  '☁️ 今しんどいね。でも、話してくれてよかった。一人じゃないよ。',
+  '🤝 一人で抱えすぎないでね。ここに吐き出して正解だよ。',
+  '🌙 今日はもう十分頑張ったよ。ゆっくり休んでね。',
+];
+
+const NEUTRAL_MESSAGES = [
+  '☀️ 話してくれてありがとう！何かあったらいつでも話しかけてね。',
+  '✨ うんうん、そんなことがあったんだね。話してくれてよかった！',
+  '🌿 ちゃんと聞いてるよ〜！もっと話したいことがあったら言ってね。',
+  '💬 なんでも話してくれてOKだよ。いつでもいるから！',
+];
 
 function detectSentiment(text) {
   let pos = 0, neg = 0;
@@ -605,12 +556,20 @@ function detectSentiment(text) {
   if (pos === 0 && neg === 0) return 'neutral';
   return pos >= neg ? 'positive' : 'negative';
 }
-function randomPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function randomPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 /* ─── HISTORY ─────────────────────────────────────────── */
 const HISTORY_KEY = 'think-history-v2';
-function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; } }
-function saveHistory(items) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(items)); } catch {} updateHistoryBadge(items.length); }
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+}
+function saveHistory(items) {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(items)); } catch {}
+  updateHistoryBadge(items.length);
+}
 function addToHistory(input, output) {
   const items = loadHistory();
   items.unshift({ id: Date.now().toString(), input, output, createdAt: new Date().toISOString() });
@@ -649,10 +608,13 @@ if (SR) {
     updateCharCount();
   };
   recognition.onerror = () => stopMic();
-  recognition.onend   = () => { if (isListening) recognition.start(); };
+  recognition.onend = () => { if (isListening) recognition.start(); };
 }
 
-function toggleMic() { if (!recognition) return; if (isListening) stopMic(); else startMic(); }
+function toggleMic() {
+  if (!recognition) return;
+  if (isListening) stopMic(); else startMic();
+}
 function startMic() {
   isListening = true;
   document.getElementById('inputArea').dataset.base = document.getElementById('inputArea').value;
@@ -677,27 +639,86 @@ function updateCharCount() {
 }
 
 /* ─── テキスト整理ロジック ──────────── */
-const CAT_INTROS = { work: ['仕事や学校のこと','学校・仕事のこと'], friend: ['人間関係のこと','友達や周りのこと'], feel: ['気持ちのこと','最近の気持ち'], body: ['体のこと','体調のこと'], future: ['これからのこと','将来のこと'], daily: ['日常のこと','ちょっとしたこと'] };
-const OPENERS = [(i) => `${i}なんですが、`, (i) => `実は${i}があって、`, (i) => `${i}で話したいことがあって、`];
-const CLOSERS_POS = ['うまくいってる感じがして、嬉しいんですよね！','なんかいい感じで、気分が上がってます！','ちょっと自信ついてきた気がします！'];
-const CLOSERS_NEG = ['ちょっと話を聞いてもらえると助かります。','なんか気になってて、誰かに話したかったんです。','どう思うか聞かせてもらえると嬉しいです。','うまく言えないけど、なんかモヤモヤしてて。'];
-const CLOSERS_NEU = ['話を聞いてもらえると助かります。','ちょっと聞いてほしくて。','どう思うか聞かせてもらえる？','誰かに話したかったんですよね。'];
+const CAT_INTROS = {
+  work:   ['仕事・学校のこと',  '仕事のこと'],
+  friend: ['人間関係のこと',    '友達とかのこと'],
+  feel:   ['気持ちのこと',      '最近の気持ち'],
+  body:   ['体のこと',          '体調のこと'],
+  future: ['これからのこと',    '将来のこと'],
+  daily:  ['日常のこと',        'ちょっとしたこと'],
+};
 
-function parseLines(text) { return text.split('\n').map(l => l.replace(/^[・\-\*\s ]+/, '').trim()).filter(l => l.length > 0); }
-function classifyLine(text) { for (const cat of CATEGORIES) { if (cat.keywords.some(kw => text.includes(kw))) return cat; } return CATEGORIES[5]; }
+/* ── カジュアルなオープナー（友達に話しかけるトーン） ── */
+const OPENERS = [
+  (i) => `ねえちょっと聞いて、${i}なんだけどさ、`,
+  (i) => `あのさ〜、${i}の話なんだけど、`,
+  (i) => `実はさ、${i}でちょっとあってさ、`,
+  (i) => `ちょっと${i}のことで話したくて、`,
+];
+
+/* ── ポジティブなクロージング ── */
+const CLOSERS_POS = [
+  'なんかうまくいってる感じがして、すごく嬉しいんだよね〜！',
+  'いい感じで、テンション上がってるよ！',
+  'ちょっと自信ついてきた気がする〜！',
+  'なんかよかったって素直に思えて！',
+];
+
+/* ── ネガティブなクロージング ── */
+const CLOSERS_NEG = [
+  'ちょっとどう思うか聞かせてほしくて。',
+  'なんかずっとモヤモヤしてて、話したかったんだよね。',
+  'うまく言えないけど、聞いてくれると助かるな〜。',
+  'どうしたらいいと思う？',
+];
+
+/* ── ニュートラルなクロージング ── */
+const CLOSERS_NEU = [
+  'まあちょっとそんなことがあってさ〜。',
+  'なんか話聞いてほしかっただけなんだけどね。',
+  'どう思う？',
+  'ちょっと聞いてほしかっただけ！',
+];
+
+function parseLines(text) {
+  return text.split('\n')
+    .map(l => l.replace(/^[・\-\*\s　]+/, '').trim())
+    .filter(l => l.length > 0);
+}
+
+function classifyLine(text) {
+  for (const cat of CATEGORIES) {
+    if (cat.keywords.some(kw => text.includes(kw))) return cat;
+  }
+  return CATEGORIES[5];
+}
+
 function buildSummary(lines, mood) {
   const groups = new Map();
-  for (const line of lines) { const cat = classifyLine(line); if (!groups.has(cat.id)) groups.set(cat.id, { cat, items: [] }); groups.get(cat.id).items.push(line); }
+  for (const line of lines) {
+    const cat = classifyLine(line);
+    if (!groups.has(cat.id)) groups.set(cat.id, { cat, items: [] });
+    groups.get(cat.id).items.push(line);
+  }
+
   const parts = [];
   for (const { cat, items } of groups.values()) {
     const intros = CAT_INTROS[cat.id] || CAT_INTROS.daily;
-    const intro  = intros[Math.floor(Math.random() * intros.length)];
+    const intro = intros[Math.floor(Math.random() * intros.length)];
     const opener = OPENERS[Math.floor(Math.random() * OPENERS.length)](intro);
-    if (items.length === 1) { parts.push(`${opener}${items[0]}。`); }
-    else { const body = items.slice(0, -1).join('したり、') + 'したり、' + items[items.length - 1]; parts.push(`${opener}${body}。`); }
+
+    if (items.length === 1) {
+      parts.push(`${opener}${items[0]}んだよね。`);
+    } else {
+      // 「〜し、〜し、〜んだよね〜」という自然なカジュアル接続
+      const body = items.slice(0, -1).map(item => item + 'し').join('、') + '、' + items[items.length - 1];
+      parts.push(`${opener}${body}んだよね〜。`);
+    }
   }
+
   const pool = mood === 'positive' ? CLOSERS_POS : mood === 'negative' ? CLOSERS_NEG : CLOSERS_NEU;
-  return parts.join('\n\n') + '\n\n' + pool[Math.floor(Math.random() * pool.length)];
+  const closer = pool[Math.floor(Math.random() * pool.length)];
+  return parts.join('\n\n') + '\n\n' + closer;
 }
 
 /* ─── ORGANIZE ─────────────────────────────────────────── */
@@ -705,56 +726,94 @@ async function organize() {
   const input = document.getElementById('inputArea').value.trim();
   if (!input) return;
   if (isListening) stopMic();
+
   showLoading(true);
   document.getElementById('resultSection').style.display = 'none';
+
   await new Promise(r => setTimeout(r, 600));
+
   const lines = parseLines(input);
   const mood  = detectSentiment(input);
-  showResult(input, buildSummary(lines, mood));
+  const result = buildSummary(lines, mood);
+  showResult(input, result);
 }
 
 /* ─── SHOW RESULT ────────────────────────────────────── */
 function showResult(input, result) {
   showLoading(false);
+
   const mood   = detectSentiment(input + ' ' + result);
   const banner = document.getElementById('moodBanner');
   const label  = document.getElementById('resultLabel');
+
   if (mood === 'positive') {
-    banner.className = 'mood-banner mood-positive'; banner.textContent = randomPick(PRAISE_MESSAGES); banner.style.display = 'block';
-    label.textContent = '🌟 やったじゃん！整理できたよ！'; label.style.color = '#065f46';
+    banner.className = 'mood-banner mood-positive';
+    banner.textContent = randomPick(PRAISE_MESSAGES);
+    banner.style.display = 'block';
+    label.textContent = '🌟 やったじゃん！整理できたよ！';
+    label.style.color = '#065f46';
   } else if (mood === 'negative') {
-    banner.className = 'mood-banner mood-negative'; banner.textContent = randomPick(COMFORT_MESSAGES); banner.style.display = 'block';
-    label.textContent = '💜 ちゃんと受け取ったよ。整理できたよ！'; label.style.color = '#7c3aed';
+    banner.className = 'mood-banner mood-negative';
+    banner.textContent = randomPick(COMFORT_MESSAGES);
+    banner.style.display = 'block';
+    label.textContent = '💜 ちゃんと受け取ったよ。整理できたよ！';
+    label.style.color = '#7c3aed';
   } else {
-    banner.style.display = 'none'; label.textContent = '🌸 整理できたよ！'; label.style.color = '#db2777';
+    // neutral でも一言表示するようにした
+    banner.className = 'mood-banner mood-neutral';
+    banner.textContent = randomPick(NEUTRAL_MESSAGES);
+    banner.style.display = 'block';
+    label.textContent = '🌸 整理できたよ！';
+    label.style.color = '#db2777';
   }
+
   const chips = detectCategories(input + ' ' + result);
-  document.getElementById('categoryChips').innerHTML = chips.map((lbl, i) => `<span class="chip chip-${i % 6}">${lbl}</span>`).join('');
+  document.getElementById('categoryChips').innerHTML = chips.map((lbl, i) =>
+    `<span class="chip chip-${i % 6}">${lbl}</span>`
+  ).join('');
+
   document.getElementById('resultBox').textContent = result;
   document.getElementById('resultSection').style.display = 'block';
   document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  const pb = document.getElementById('publishBtn');
-  pb.textContent = '公開する'; pb.disabled = false; pb.classList.remove('published');
+
   addToHistory(input, result);
 }
 
-function showLoading(show) { document.getElementById('loadingSection').style.display = show ? 'block' : 'none'; }
+/* ─── LOADING ─────────────────────────────────────────── */
+function showLoading(show) {
+  document.getElementById('loadingSection').style.display = show ? 'block' : 'none';
+}
 
 /* ─── COPY / DOWNLOAD ────────────────────────────────── */
 function copyResult() {
   const text = document.getElementById('resultBox').textContent;
-  navigator.clipboard.writeText(text).then(() => showToast('📋 コピーしたよ！')).catch(() => { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 コピーしたよ！'); });
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('📋 コピーしたよ！'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 コピーしたよ！');
+    });
 }
+
 function downloadResult() {
-  const input = document.getElementById('inputArea').value;
+  const input  = document.getElementById('inputArea').value;
   const result = document.getElementById('resultBox').textContent;
-  const date = new Date().toLocaleDateString('ja-JP').replace(/\//g, '-');
+  const date   = new Date().toLocaleDateString('ja-JP').replace(/\//g, '-');
   const content = `━━━ 思考整理メモ (${date}) ━━━\n\n【入力した内容】\n${input}\n\n【整理した結果】\n${result}\n`;
   const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `思考整理メモ_${date}.txt`;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `思考整理メモ_${date}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
   showToast('💾 ダウンロードしたよ！');
 }
 
@@ -769,97 +828,76 @@ function clearAll() {
 }
 
 /* ─── HISTORY MODAL ──────────────────────────────────── */
-function openHistory() { renderHistoryList(); document.getElementById('historyModal').classList.add('open'); }
-function closeHistory(e) { if (!e || e.target === document.getElementById('historyModal')) document.getElementById('historyModal').classList.remove('open'); }
+function openHistory() {
+  renderHistoryList();
+  document.getElementById('historyModal').classList.add('open');
+}
+function closeHistory(e) {
+  if (!e || e.target === document.getElementById('historyModal')) {
+    document.getElementById('historyModal').classList.remove('open');
+  }
+}
 function renderHistoryList() {
   const items = loadHistory();
   const list  = document.getElementById('historyList');
-  if (items.length === 0) { list.innerHTML = '<div class="history-empty">まだ整理した記録がないよ 📝</div>'; return; }
+  if (items.length === 0) {
+    list.innerHTML = '<div class="history-empty">まだ整理した記録がないよ 📝</div>';
+    return;
+  }
   list.innerHTML = items.map((item, i) => {
-    const cls = `history-item history-item-${i % 6}`;
-    const d = new Date(item.createdAt);
+    const cls     = `history-item history-item-${i % 6}`;
+    const d       = new Date(item.createdAt);
     const dateStr = d.toLocaleDateString('ja-JP') + ' ' + d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
     const preview = item.input.replace(/\n/g, ' ').substring(0, 80);
-    return `<div class="${cls}"><div class="history-meta"><span class="history-date">🕐 ${dateStr}</span><button class="btn-history-del" onclick="deleteHistory('${item.id}')">✕</button></div><div class="history-preview">${escapeHtml(preview)}</div><button class="btn-restore" onclick="restoreHistory('${item.id}')">→ これを読み込む</button></div>`;
+    return `
+      <div class="${cls}">
+        <div class="history-meta">
+          <span class="history-date">🕐 ${dateStr}</span>
+          <button class="btn-history-del" onclick="deleteHistory('${item.id}')">✕</button>
+        </div>
+        <div class="history-preview">${escapeHtml(preview)}</div>
+        <button class="btn-restore" onclick="restoreHistory('${item.id}')">→ これを読み込む</button>
+      </div>
+    `;
   }).join('');
 }
-function restoreHistory(id) { const item = loadHistory().find(h => h.id === id); if (!item) return; document.getElementById('inputArea').value = item.input; updateCharCount(); showResult(item.input, item.output); closeHistory(); }
-function deleteHistory(id) { saveHistory(loadHistory().filter(h => h.id !== id)); renderHistoryList(); }
-function clearAllHistory() { if (!confirm('履歴を全部消す？')) return; saveHistory([]); renderHistoryList(); }
-
-/* ─── 公開機能 ────────────────────────────────────────── */
-async function publishPost() {
-  const input = document.getElementById('inputArea').value.trim();
-  if (!input) return;
-  if (!db) { showToast('⚙️ Firebase の設定が必要です'); return; }
-  const post = { text: input.substring(0, 500), mood: detectSentiment(input), categories: detectCategories(input), createdAt: firebase.database.ServerValue.TIMESTAMP };
-  try {
-    await db.ref('posts').push(post);
-    const pb = document.getElementById('publishBtn');
-    pb.textContent = '✅ 公開済み！'; pb.disabled = true; pb.classList.add('published');
-    showToast('🌍 世界に公開したよ！');
-  } catch (e) { showToast('❌ 公開に失敗しました'); }
+function restoreHistory(id) {
+  const item = loadHistory().find(h => h.id === id);
+  if (!item) return;
+  document.getElementById('inputArea').value = item.input;
+  updateCharCount();
+  showResult(item.input, item.output);
+  closeHistory();
 }
-
-/* ─── 世界フィード ────────────────────────────────────── */
-let worldUnsubscribe = null;
-
-function openWorldFeed() {
-  document.getElementById('worldModal').classList.add('open');
-  if (!db) { renderWorldFeedUnconfigured(); return; }
-  document.getElementById('worldFeedContent').innerHTML = '<div class="world-loading">読み込み中... ✨</div>';
-  const postsRef = db.ref('posts').orderByChild('createdAt').limitToLast(50);
-  worldUnsubscribe = postsRef.on('value', (snapshot) => {
-    const posts = [];
-    snapshot.forEach(child => posts.unshift({ id: child.key, ...child.val() }));
-    renderWorldFeed(posts);
-  }, () => { document.getElementById('worldFeedContent').innerHTML = '<div class="world-empty">読み込みに失敗しました 😢</div>'; });
+function deleteHistory(id) {
+  saveHistory(loadHistory().filter(h => h.id !== id));
+  renderHistoryList();
 }
-
-function closeWorldModal(e) {
-  if (!e || e.target === document.getElementById('worldModal')) {
-    document.getElementById('worldModal').classList.remove('open');
-    if (worldUnsubscribe) { db && db.ref('posts').off('value', worldUnsubscribe); worldUnsubscribe = null; }
-  }
-}
-
-function renderWorldFeed(posts) {
-  const content = document.getElementById('worldFeedContent');
-  if (posts.length === 0) { content.innerHTML = '<div class="world-empty">まだ公開されたモヤモヤがないよ 🌍<br>最初に公開してみて！</div>'; return; }
-  content.innerHTML = posts.map(post => {
-    const moodEmoji = post.mood === 'positive' ? '😊' : post.mood === 'negative' ? '😔' : '😐';
-    const cardClass = post.mood === 'positive' ? 'world-post-pos' : post.mood === 'negative' ? 'world-post-neg' : 'world-post-neu';
-    const cats = (post.categories || []).map(c => `<span class="world-chip">${escapeHtml(c)}</span>`).join('');
-    return `<div class="world-post ${cardClass}"><div class="world-post-header"><span class="world-post-mood">${moodEmoji}</span><span class="world-post-time">🕐 ${timeAgo(post.createdAt)}</span></div><div class="world-post-text">${escapeHtml((post.text || '').substring(0, 400))}</div>${cats ? `<div class="world-post-chips">${cats}</div>` : ''}</div>`;
-  }).join('');
-}
-
-function renderWorldFeedUnconfigured() {
-  document.getElementById('worldFeedContent').innerHTML = `<div class="firebase-notice">⚙️ Firebase の設定が必要です。</div>`;
-}
-
-function timeAgo(ts) {
-  if (!ts) return '不明';
-  const diff = Date.now() - ts;
-  const m = Math.floor(diff / 60000);
-  if (m < 1) return 'たった今';
-  if (m < 60) return `${m}分前`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}時間前`;
-  const d = Math.floor(h / 24);
-  return d < 30 ? `${d}日前` : '1ヶ月以上前';
+function clearAllHistory() {
+  if (!confirm('履歴を全部消す？')) return;
+  saveHistory([]);
+  renderHistoryList();
 }
 
 /* ─── TOAST ──────────────────────────────────────────── */
 let toastTimer = null;
-function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2400); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
 
 /* ─── UTILS ──────────────────────────────────────────── */
-function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 /* ─── INIT ───────────────────────────────────────────── */
-(function init() { updateHistoryBadge(loadHistory().length); })();
-
+(function init() {
+  updateHistoryBadge(loadHistory().length);
+})();
 </script>
 </body>
 </html>
